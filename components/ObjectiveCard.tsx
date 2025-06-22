@@ -1,60 +1,83 @@
-// components/ObjectiveCard.tsx
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import FormCard from './FormCard'; // Reutilizando FormCard
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { BookIcon } from './Icons/BookIcon';
 
-interface ObjectiveCardProps {
-  objectiveName: string;
-  sequence: number;
-  isCompleted?: boolean;
+interface ObjectiveDisplayCardProps {
+  objectiveTitle: string;
+  objectiveSubtitle: string;
 }
 
-export default function ObjectiveCard({
-  objectiveName,
-  sequence,
-  isCompleted = false,
-}: ObjectiveCardProps): React.JSX.Element {
+const { width } = Dimensions.get('window');
+
+const ObjectiveDisplayCard: React.FC<ObjectiveDisplayCardProps> = ({
+  objectiveTitle,
+  objectiveSubtitle,
+}) => {
   return (
-    <FormCard style={styles.objectiveCard}>
-      <View style={styles.content}>
-        <MaterialCommunityIcons
-          name={isCompleted ? 'check-circle' : 'checkbox-blank-circle-outline'}
-          size={24}
-          color={isCompleted ? '#8BC34A' : '#7F8C8D'}
-          style={styles.icon}
-        />
-        <MaterialCommunityIcons name="book-open-outline" size={24} color="#2C3E50" style={styles.icon} />
-        <View>
-          <Text style={styles.objectiveName}>{objectiveName}</Text>
-          <Text style={styles.sequenceText}>Sequência de {sequence} dias</Text>
+    <View style={styles.objectiveCard}>
+      <View style={styles.objectiveLeft}>
+        <View style={styles.checkboxContainer}>
+          <Text style={styles.checkmark}>✓</Text>
         </View>
+        <BookIcon size={24} color="#374151" />
       </View>
-    </FormCard>
+      <View style={styles.objectiveContent}>
+        <Text style={styles.objectiveTitle}>{objectiveTitle}</Text>
+        <Text style={styles.objectiveSubtitle}>{objectiveSubtitle}</Text>
+      </View>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   objectiveCard: {
-    marginHorizontal: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    marginBottom: 20,
-  },
-  content: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 20,
     flexDirection: 'row',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+    marginHorizontal: width * 0.05,
   },
-  icon: {
-    marginRight: 10,
+  objectiveLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 16,
   },
-  objectiveName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#2C3E50',
+  checkboxContainer: {
+    width: 24,
+    height: 24,
+    borderRadius: 4,
+    backgroundColor: '#79D457',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
   },
-  sequenceText: {
+  checkmark: {
+    color: '#FFFFFF',
     fontSize: 14,
-    color: '#7F8C8D',
+    fontWeight: '600',
+  },
+  objectiveContent: {
+    flex: 1,
+  },
+  objectiveTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#374151',
+    marginBottom: 4,
+  },
+  objectiveSubtitle: {
+    fontSize: 14,
+    color: '#6B7280',
   },
 });
+
+export default ObjectiveDisplayCard;

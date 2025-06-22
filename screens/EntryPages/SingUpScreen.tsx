@@ -10,10 +10,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ArrowLeft } from 'lucide-react-native';
+import { createAccount } from '@/services/user/createAccount';
 
 const { width, height } = Dimensions.get('window');
 
@@ -43,12 +45,10 @@ export default function SignUpScreen() {
     }
 
     try {
-      console.log('Usuário criado:', { name, email, password });
-      // Aqui você implementaria a lógica de criação de usuário real
-      router.push('/mental');
-    } catch (err: any) {
-      console.log('Erro ao criar usuário: ', err.message);
-      setError('Erro ao criar conta. Tente novamente.');
+      const data = await createAccount(name, email, password);
+      router.push("/(tabs)/mental");
+    } catch (error: any) {
+      Alert.alert("Erro", error.message || "Erro inesperado ao fazer login.");
     }
   };
 
@@ -59,7 +59,6 @@ export default function SignUpScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        {/* Header com Logo Centralizado */}
         <View style={styles.header}>
           <TouchableOpacity onPress={handleBackToLogin} style={styles.backButton}>
             <ArrowLeft size={24} color="#6B7280" />
@@ -73,7 +72,6 @@ export default function SignUpScreen() {
             />
           </View>
           
-          {/* Espaço invisível para equilibrar o layout */}
           <View style={styles.spacer} />
         </View>
 
@@ -88,7 +86,6 @@ export default function SignUpScreen() {
               </View>
             ) : null}
 
-            {/* Nome */}
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Nome completo</Text>
               <TextInput
@@ -101,7 +98,6 @@ export default function SignUpScreen() {
               />
             </View>
 
-            {/* Email */}
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Email</Text>
               <TextInput
@@ -115,7 +111,6 @@ export default function SignUpScreen() {
               />
             </View>
 
-            {/* Senha */}
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Senha</Text>
               <TextInput
@@ -128,20 +123,17 @@ export default function SignUpScreen() {
               />
             </View>
 
-            {/* Botão Criar Conta */}
             <TouchableOpacity style={styles.signUpButton} onPress={handleSubmit}>
               <Text style={styles.signUpButtonText}>Criar conta</Text>
             </TouchableOpacity>
 
 
-            {/* Link Voltar ao Login */}
             <View style={styles.backToLoginContainer}>
               <Text style={styles.backToLoginText}>Já tem uma conta? </Text>
               <TouchableOpacity onPress={handleBackToLogin}>
                 <Text style={styles.backToLoginLink}>Entrar</Text>
               </TouchableOpacity>
             </View>
-            {/* Botão Teste */}
             <TouchableOpacity style={styles.testButton} onPress={() => router.push('/mental')}>
               <Text style={styles.testButtonText}>🧪 Teste - Ver Dashboard</Text>
             </TouchableOpacity>

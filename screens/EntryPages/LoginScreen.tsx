@@ -9,9 +9,12 @@ import {
   ScrollView,
   Image,
   Dimensions,
+  Alert,
 } from 'react-native';
 import { Mail, Eye, EyeOff, Lock } from 'lucide-react-native';
-import { useRouter } from 'expo-router';
+import { router, useRouter } from 'expo-router';
+import { login } from '@/services/auth/login';
+import { saveToken } from '@/stores/authStore';
 
 const { width, height } = Dimensions.get('window');
 
@@ -21,23 +24,14 @@ export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
-  const router = useRouter();
-
-  const handleLogin = () => {
-    setError('');
-
-    if (!email.trim()) {
-      setError('Email é obrigatório');
-      return;
-    }
-
-    if (!password.trim()) {
-      setError('Senha é obrigatória');
-      return;
-    }
-
-    console.log('Login:', { email, password });
-    // Aqui você implementaria a lógica de autenticação
+  const handleLogin = async () => {
+    try {
+          const data = await login(email, password);
+          saveToken(data.access, data.refresh)
+          router.push("/(tabs)/mental");
+        } catch (error: any) {
+          Alert.alert("Erro", error.message || "Erro inesperado ao fazer login.");
+        }
   };
 
   const handleCreateAccount = () => {
@@ -45,14 +39,12 @@ export default function LoginScreen() {
   };
 
   const handleForgotPassword = () => {
-    // Implementar lógica de recuperação de senha
     console.log('Esqueci minha senha');
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        {/* Header com Logo Centralizado */}
         <View style={styles.header}>
           <View style={styles.logoContainer}>
             <Image
@@ -74,7 +66,6 @@ export default function LoginScreen() {
               </View>
             ) : null}
 
-            {/* Email */}
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Email</Text>
               <View style={styles.inputContainer}>
@@ -91,7 +82,6 @@ export default function LoginScreen() {
               </View>
             </View>
 
-            {/* Senha */}
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Senha</Text>
               <View style={styles.inputContainer}>
@@ -117,17 +107,14 @@ export default function LoginScreen() {
               </View>
             </View>
 
-            {/* Link Esqueci minha senha */}
             <TouchableOpacity onPress={handleForgotPassword} style={styles.forgotPasswordContainer}>
               <Text style={styles.forgotPasswordText}>Esqueci minha senha</Text>
             </TouchableOpacity>
 
-            {/* Botão Login */}
             <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
               <Text style={styles.loginButtonText}>Entrar</Text>
             </TouchableOpacity>
 
-            {/* Link Criar Conta */}
             <View style={styles.createAccountContainer}>
               <Text style={styles.createAccountText}>Não tem uma conta? </Text>
               <TouchableOpacity onPress={handleCreateAccount}>
@@ -156,17 +143,17 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: width * 0.05, // 5% da largura da tela
-    paddingTop: height * 0.08, // 8% da altura da tela
-    paddingBottom: height * 0.02, // 2% da altura da tela
-    minHeight: height * 0.25, // 25% da altura da tela
+    paddingHorizontal: width * 0.05, 
+    paddingTop: height * 0.08,
+    paddingBottom: height * 0.02,
+    minHeight: height * 0.25, 
   },
   logoContainer: {
     alignItems: 'center',
     justifyContent: 'center',
   },
   logoImage: {
-    width: Math.min(width * 0.5, 200), // 50% da largura ou 200px max
+    width: Math.min(width * 0.5, 200), 
     height: Math.min(width * 0.5, 200), // Mantém proporção quadrada
   },
   content: {

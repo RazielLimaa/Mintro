@@ -14,11 +14,11 @@ interface AchievementItemProps {
 
 export default function AchievementItem({
   iconName,
-  iconColor = 'white', // Cor padrão do ícone na imagem
-  iconBackgroundColor = '#8BC34A', // Cor padrão do fundo do ícone
+  iconColor = 'white', 
+  iconBackgroundColor = '#8BC34A', 
   title,
   description,
-}: AchievementItemProps): React.JSX.Element {
+}: AchievementItemProps) {
   return (
     <FormCard style={styles.card}>
       <View style={styles.content}>

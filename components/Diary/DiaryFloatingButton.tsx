@@ -4,12 +4,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface FloatingActionButtonProps {
   onPressCreateDiary: () => void;
-  onPressCreateObjective: () => void; // Renomeado de onPressRegisterActivity
+  onPressCreateObjective: () => void;
 }
 
 const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
   onPressCreateDiary,
-  onPressCreateObjective, // Renomeado
+  onPressCreateObjective,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const animation = useState(new Animated.Value(0))[0];
@@ -24,12 +24,12 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
     setIsOpen(!isOpen);
   };
 
-  const objectiveTranslateY = animation.interpolate({ // Ajustado o nome da variável
+  const objectiveTranslateY = animation.interpolate({
     inputRange: [0, 1],
     outputRange: [0, -60],
   });
 
-  const diaryTranslateY = animation.interpolate({ // Ajustado o nome da variável
+  const diaryTranslateY = animation.interpolate({
     inputRange: [0, 1],
     outputRange: [0, -120],
   });
@@ -41,14 +41,12 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
 
   return (
     <View style={styles.fabContainer}>
-      {/* Botão "Criar Objetivo" */}
       <Animated.View style={[styles.subFab, { transform: [{ translateY: objectiveTranslateY }] }]}>
         <TouchableOpacity style={styles.subFabButton} onPress={onPressCreateObjective}>
-          <MaterialCommunityIcons name="target" size={24} color="#FFFFFF" /> {/* Ícone para Objetivo */}
+          <MaterialCommunityIcons name="target" size={24} color="#FFFFFF" />
         </TouchableOpacity>
       </Animated.View>
 
-      {/* Botão "Criar Diário" */}
       <Animated.View style={[styles.subFab, { transform: [{ translateY: diaryTranslateY }] }]}>
         <TouchableOpacity style={styles.subFabButton} onPress={onPressCreateDiary}>
           <MaterialCommunityIcons name="book-open-outline" size={24} color="#FFFFFF" />

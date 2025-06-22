@@ -1,27 +1,13 @@
-// screens/ProfileScreen.tsx (Versão Não Componentizada)
+import { StyleSheet, View, Text, SafeAreaView, ScrollView, Dimensions, TouchableOpacity,} from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import React, { useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; // Necessário para os ícones
-
-// Helper para calcular a largura dos cards (para 3 colunas)
 const { width } = Dimensions.get('window');
-const cardHorizontalMargin = 1.5; // Porcentagem do StatMetricCard
-// A largura exata pode precisar de ajustes finos dependendo dos paddings internos
-// Este cálculo é uma estimativa
+const cardHorizontalMargin = 1.5;
+
 const threeColumnCardWidth = (width - 40 - (2 * (width * cardHorizontalMargin / 100))) / 3;
 const twoColumnCardWidth = (width - 40 - (2 * (width * 1 / 100))) / 2;
 
-
-export default function ProfileScreen(): React.JSX.Element {
+export default function ProfileScreen() {
   const handleEditProfile = () => {
     console.log('Editar perfil');
   };
@@ -33,8 +19,6 @@ export default function ProfileScreen(): React.JSX.Element {
   const handleProfileHeaderPress = () => console.log('Perfil pressionado (header)');
   const handleChatHeaderPress = () => console.log('Chat pressionado');
 
-
-  // Dados mockados
   const user = {
     name: 'Alixandre',
     joinYear: 2024,
@@ -61,8 +45,8 @@ export default function ProfileScreen(): React.JSX.Element {
       description: '15 dias consecutivos escrevendo',
     },
     {
-      iconName: 'zodiac-aquarius' as const, // Ícone 'as const' para tipagem
-      iconBackgroundColor: '#9B59B6', // Roxo
+      iconName: 'zodiac-aquarius' as const,
+      iconBackgroundColor: '#9B59B6',
       title: 'Mente Equilibrada',
       description: '10 sessões mindfulness',
     },
@@ -70,14 +54,13 @@ export default function ProfileScreen(): React.JSX.Element {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* ScreenHeader - Incorporado */}
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={handleProfileHeaderPress} style={styles.iconButton}>
           <View style={styles.profilePlaceholder}>
-            <Text style={styles.profileText}>A</Text>
+            <Text style={styles.profileText}>{user.avatarChar}</Text>
           </View>
         </TouchableOpacity>
-        <View style={styles.logoContainer}> {/* Logo Mintros incorporado */}
+        <View style={styles.logoContainer}>
           <Text style={styles.logoText}>Mintros</Text>
           <View style={styles.plantIconPlaceholder} />
         </View>
@@ -87,8 +70,7 @@ export default function ProfileScreen(): React.JSX.Element {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        {/* ProfileInfoSection - Incorporado */}
-        <View style={styles.formCardCommon}> {/* Reutiliza estilo de FormCard */}
+        <View style={styles.formCardCommon}>
           <View style={styles.userInfo}>
             <View>
               <Text style={styles.userName}>{user.name}</Text>
@@ -103,14 +85,12 @@ export default function ProfileScreen(): React.JSX.Element {
           </View>
         </View>
 
-        {/* Seção de Estatísticas */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Estatísticas</Text>
         </View>
         <View style={styles.metricCardGrid}>
           {statistics.map((stat, index) => (
-            // StatMetricCard - Incorporado
-            <View key={index} style={[styles.formCardCommon, styles.statMetricCardCustom]}>
+            <View style={[styles.formCardCommon, styles.statMetricCardCustom]}>
               <View style={styles.statMetricCardContent}>
                 <MaterialCommunityIcons name={stat.iconName} size={28} color="#7F8C8D" style={styles.statMetricCardIcon} />
                 <Text style={styles.statMetricCardValueText}>{stat.value}</Text>
@@ -120,19 +100,17 @@ export default function ProfileScreen(): React.JSX.Element {
           ))}
         </View>
 
-        {/* Seção Minhas Metas */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Minhas Metas</Text>
         </View>
         <View style={styles.metricCardGrid}>
           {goals.map((goal, index) => (
-            // StatMetricCard - Incorporado
-            <View key={index} style={[styles.formCardCommon, styles.statMetricCardCustom]}>
+            <View style={[styles.formCardCommon, styles.statMetricCardCustom]}>
               <View style={styles.statMetricCardContent}>
                 <MaterialCommunityIcons
                   name={goal.iconName}
                   size={28}
-                  color={index === 0 ? '#3498DB' : '#7F8C8D'} 
+                  color={index === 0 ? '#3498DB' : '#7F8C8D'}
                   style={styles.statMetricCardIcon}
                 />
                 <Text style={styles.statMetricCardValueText}>{goal.value}</Text>
@@ -151,7 +129,7 @@ export default function ProfileScreen(): React.JSX.Element {
         </View>
         <View style={styles.achievementGrid}>
           {achievements.map((achievement, index) => (
-            <View key={index} style={[styles.formCardCommon, styles.achievementItemCustom]}>
+            <View style={[styles.formCardCommon, styles.achievementItemCustom]}>
               <View style={styles.achievementItemContent}>
                 <View style={[styles.achievementIconBackground, { backgroundColor: achievement.iconBackgroundColor }]}>
                   <MaterialCommunityIcons name={achievement.iconName} size={28} color="white" />
@@ -175,7 +153,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   scrollViewContent: {
-    paddingBottom: 20, 
+    paddingBottom: 20,
   },
   headerContainer: {
     flexDirection: 'row',
@@ -230,7 +208,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
     elevation: 5,
-    marginHorizontal: 20, 
+    marginHorizontal: 20,
     marginBottom: 20,
   },
 
@@ -288,17 +266,15 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 
-  // Estilos da grade de Métricas (Estatísticas e Metas)
   metricCardGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
     paddingHorizontal: 20 - (width * (cardHorizontalMargin / 100)),
   },
-  // Estilos do StatMetricCard (incorporados e adaptados)
   statMetricCardCustom: {
-    width: threeColumnCardWidth, // Usa a largura calculada
-    marginHorizontal: width * (cardHorizontalMargin / 100), // Margem calculada
+    width: threeColumnCardWidth,
+    marginHorizontal: width * (cardHorizontalMargin / 100),
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
@@ -328,17 +304,15 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
 
-  // Estilos da grade de Conquistas
   achievementGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
     paddingHorizontal: 20 - (width * (1 / 100)),
   },
-  // Estilos do AchievementItem (incorporados e adaptados)
   achievementItemCustom: {
-    width: twoColumnCardWidth, // Usa a largura calculada para 2 colunas
-    marginHorizontal: width * (1 / 100), // Margem calculada
+    width: twoColumnCardWidth,
+    marginHorizontal: width * (1 / 100),
     padding: 15,
     marginBottom: 15,
   },

@@ -7,8 +7,7 @@ interface FormCardProps {
   onPress?: (event: GestureResponderEvent) => void; // Adicionamos a prop onPress
 }
 
-export default function FormCard({ children, style, onPress }: FormCardProps): React.JSX.Element {
-  // Se onPress for fornecido, envolvemos o conteúdo em um TouchableOpacity
+export default function FormCard({ children, style, onPress }: FormCardProps) {
   if (onPress) {
     return (
       <TouchableOpacity onPress={onPress} style={[styles.formCard, style]}>
