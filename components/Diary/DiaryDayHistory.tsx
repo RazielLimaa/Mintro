@@ -1,20 +1,29 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import DiaryEntryCard from './DiaryEntryCard'; // Certifique-se do caminho relativo correto
+import DiaryEntryCard from './DiaryEntryCard';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MoodType } from '@/types/mental/diary'; // Ajuste o caminho
 
-interface DiaryEntryData {
+// NOVO: Interface para uma atividade transformada
+interface TransformedActivity {
+  name: string;
+  iconName: keyof typeof MaterialCommunityIcons.glyphMap;
+}
+
+interface TransformedDiaryEntryData {
   time: string;
-  mood: string;
+  mood: MoodType;
+  iconSource: any;
   moodColor: string;
-  icon: any;
-  activity: string;
+  activities: TransformedActivity[]; // NOVO: Agora é um array de atividades transformadas
   title: string;
   content: string;
+  photoUrl?: string;
 }
 
 interface DiaryDayHistoryProps {
   date: string;
-  entries: DiaryEntryData[];
+  entries: TransformedDiaryEntryData[];
 }
 
 const DiaryDayHistory: React.FC<DiaryDayHistoryProps> = ({ date, entries }) => {
@@ -32,13 +41,15 @@ const DiaryDayHistory: React.FC<DiaryDayHistoryProps> = ({ date, entries }) => {
 
         {entries.map((entry, entryIndex) => (
           <DiaryEntryCard
+            key={entryIndex}
             time={entry.time}
             mood={entry.mood}
+            iconSource={entry.iconSource}
             moodColor={entry.moodColor}
-            iconSource={entry.icon}
-            activity={entry.activity}
+            activities={entry.activities} // NOVO: Passando o array de atividades
             title={entry.title}
             content={entry.content}
+            photoUrl={entry.photoUrl}
           />
         ))}
       </View>

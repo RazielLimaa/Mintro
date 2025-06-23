@@ -1,19 +1,21 @@
-import { Objective } from "@/types/mental/objectives";
-import api from "../api"
-import { MindfulnessLog } from "@/types/health/mindfulness";
+import { Objective } from '@/types/mental/objectives'; // Ajuste o caminho
+import api from '../api';
 
-export const getObjectiveList = async () => {
-    try {
-    const response = await api.get<Objective[]>("mental/mindfulness/log/")
-    
-    const data = response.data
-    return data
+export const getObjectiveList = async (): Promise<Objective[]> => {
+  try {
+    const response = await api.get<Objective[]>("progress/objective/");
 
-    } catch(error: any) {
-      if (error.response?.data?.detail) {
-      throw new Error(error.response.data.detail); 
+    const data = response.data;
+    return data;
+  } catch (error: any) {
+    if (error.response?.status === 404) {
+      console.warn("Nenhum objetivo encontrado.");
+      return []
     }
-
-    throw new Error("Erro ao tentar buscar diario");
+    if (error.response?.data?.detail) {
+      throw new Error(error.response.data.detail);
+      
     }
+    throw new Error("Erro ao tentar buscar objetivos");
   }
+};

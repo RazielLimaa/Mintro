@@ -1,5 +1,6 @@
 import { StyleSheet, View, Text, SafeAreaView, ScrollView, Dimensions, TouchableOpacity,} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Header from '@/components/Header';
 
 const { width } = Dimensions.get('window');
 const cardHorizontalMargin = 1.5;
@@ -54,20 +55,9 @@ export default function ProfileScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={handleProfileHeaderPress} style={styles.iconButton}>
-          <View style={styles.profilePlaceholder}>
-            <Text style={styles.profileText}>{user.avatarChar}</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={styles.logoContainer}>
-          <Text style={styles.logoText}>Mintros</Text>
-          <View style={styles.plantIconPlaceholder} />
-        </View>
-        <TouchableOpacity onPress={handleChatHeaderPress} style={styles.iconButton}>
-          <MaterialCommunityIcons name="chat-outline" size={24} color="#34495E" />
-        </TouchableOpacity>
-      </View>
+      <Header
+        avatarChar='A'
+      />
 
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.formCardCommon}>

@@ -1,25 +1,35 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { BookIcon } from '../Icons/BookIcon';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MoodType } from '@/types/mental/diary';
+
+
+// NOVO: Interface para uma atividade transformada (nome e ícone)
+interface TransformedActivity {
+  name: string;
+  iconName: keyof typeof MaterialCommunityIcons.glyphMap;
+}
 
 interface DiaryEntryCardProps {
   time: string;
-  mood: string;
+  mood: MoodType;
+  iconSource: any; // Mood icon source
   moodColor: string;
-  iconSource: any;
-  activity: string;
+  activities: TransformedActivity[]; // NOVO: Agora é um array de atividades transformadas
   title: string;
   content: string;
+  photoUrl?: string;
 }
 
 const DiaryEntryCard: React.FC<DiaryEntryCardProps> = ({
   time,
   mood,
-  moodColor,
   iconSource,
-  activity,
+  moodColor,
+  activities, // Destrutura o novo prop
   title,
   content,
+  photoUrl,
 }) => {
   return (
     <View style={styles.timelineRow}>
@@ -31,9 +41,14 @@ const DiaryEntryCard: React.FC<DiaryEntryCardProps> = ({
         <View style={styles.entryHeader}>
           <View style={styles.entryInfo}>
             <Text style={[styles.moodText, { color: moodColor }]}>{mood}</Text>
-            <View style={styles.activityRow}>
-              <BookIcon size={16} color="#374151" />
-              <Text style={styles.activityText}>{activity}</Text>
+            {/* NOVO: Renderiza múltiplas atividades */}
+            <View style={styles.activitiesContainer}>
+              {activities.map((activity, index) => (
+                <View key={index} style={styles.activityChip}>
+                  <MaterialCommunityIcons name={activity.iconName} size={14} color="#6B7280" />
+                  <Text style={styles.activityChipText}>{activity.name}</Text>
+                </View>
+              ))}
             </View>
           </View>
           <Text style={styles.timeText}>{time}</Text>
@@ -41,6 +56,10 @@ const DiaryEntryCard: React.FC<DiaryEntryCardProps> = ({
 
         <Text style={styles.entryTitle}>{title}</Text>
         <Text style={styles.entryContent}>{content}</Text>
+
+        {photoUrl && (
+          <Image source={{ uri: photoUrl }} style={styles.diaryPhoto} />
+        )}
       </View>
     </View>
   );
@@ -66,6 +85,7 @@ const styles = StyleSheet.create({
   timelineIcon: {
     width: 50,
     height: 50,
+    resizeMode: 'contain',
   },
   entryCard: {
     flex: 1,
@@ -96,13 +116,26 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 4,
   },
-  activityRow: {
+  // NOVO: Container para as atividades em linha
+  activitiesContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap', // Permite que os chips quebrem a linha
+    marginTop: 5,
+  },
+  // NOVO: Estilo para cada "chip" de atividade
+  activityChip: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#F3F4F6', // Fundo leve para o chip
+    borderRadius: 15,
+    paddingVertical: 5,
+    paddingHorizontal: 8,
+    marginRight: 6,
+    marginBottom: 6,
   },
-  activityText: {
-    fontSize: 14,
-    color: '#374151',
+  activityChipText: {
+    fontSize: 12,
+    color: '#6B7280',
     marginLeft: 4,
   },
   timeText: {
@@ -119,6 +152,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#6B7280',
     lineHeight: 20,
+  },
+  diaryPhoto: {
+    width: '100%',
+    aspectRatio: 16 / 9,
+    borderRadius: 8,
+    marginTop: 15,
+    resizeMode: 'contain',
   },
 });
 

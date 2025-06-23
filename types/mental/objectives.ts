@@ -1,7 +1,9 @@
+import { Activity } from "./diary"
+
 export interface Objective{
     id: number
     user: number
-    activity: string
-    deadline: Date
-    created_at: Date
+    activity: Activity
+    deadline: string
+    created_at: string
 }

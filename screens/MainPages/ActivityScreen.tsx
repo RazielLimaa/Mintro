@@ -29,16 +29,13 @@ export default function HealthScreen() {
   }
 
   const weekDays = ["D", "S", "T", "Q", "Q", "S", "S"]
-  const exerciseDays = [false, false, false, false, true, false, false] // Apenas quinta-feira marcada
-  const mindfulnessDays = [false, true, true, true, true, true, true] // Todos os dias exceto domingo
+  const exerciseDays = [false, false, false, false, true, false, false] 
+  const mindfulnessDays = [false, true, true, true, true, true, true] 
 
   return (
     <SafeAreaView style={styles.container}>
       <Header
-        onAvatarPress={() => console.log('Avatar pressionado')}
-        onRefreshPress={() => console.log('Botão de refresh pressionado')}
         avatarChar="A"
-        logoSource={require('../../assets/images/logosrobomintro.png')}
       />
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>

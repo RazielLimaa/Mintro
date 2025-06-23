@@ -1,19 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import { ChevronLeft, Search } from 'lucide-react-native';
+import { ChevronLeft, ChevronRight, Search } from 'lucide-react-native';
 
 interface DateNavigationProps {
   currentPeriodText: string;
   onPrevPress: () => void;
-  onSearchPress: () => void;
+  onNextPress: () => void;
 }
 
 const { width, height } = Dimensions.get('window');
 
-const MentalDateNavigation: React.FC<DateNavigationProps> = ({
+const DateNavigation: React.FC<DateNavigationProps> = ({
   currentPeriodText,
   onPrevPress,
-  onSearchPress,
+  onNextPress,
 }) => {
   return (
     <View style={styles.dateNavigation}>
@@ -23,8 +23,8 @@ const MentalDateNavigation: React.FC<DateNavigationProps> = ({
 
       <Text style={styles.dateText}>{currentPeriodText}</Text>
 
-      <TouchableOpacity onPress={onSearchPress}>
-        <Search size={24} color="#374151" />
+      <TouchableOpacity onPress={onNextPress}>
+          <ChevronRight size={24} color="#374151" />
       </TouchableOpacity>
     </View>
   );
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MentalDateNavigation;
+export default DateNavigation;

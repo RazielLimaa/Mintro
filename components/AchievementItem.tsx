@@ -2,12 +2,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import FormCard from './FormCard'; // Reutilizando FormCard
 
 interface AchievementItemProps {
   iconName: string;
   iconColor?: string;
-  iconBackgroundColor?: string; // Para o fundo do ícone
+  iconBackgroundColor?: string; 
   title: string;
   description: string;
 }
@@ -20,7 +19,7 @@ export default function AchievementItem({
   description,
 }: AchievementItemProps) {
   return (
-    <FormCard style={styles.card}>
+    <View style={styles.card}>
       <View style={styles.content}>
         <View style={[styles.iconBackground, { backgroundColor: iconBackgroundColor }]}>
           <MaterialCommunityIcons name={'account-cash-outline'} size={28} color={iconColor} />
@@ -30,14 +29,14 @@ export default function AchievementItem({
           <Text style={styles.description}>{description}</Text>
         </View>
       </View>
-    </FormCard>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    width: '48%', // Duas colunas
-    marginHorizontal: '1%', // Espaçamento entre os cartões
+    width: '48%', 
+    marginHorizontal: '1%', 
     padding: 15,
     marginBottom: 15,
   },

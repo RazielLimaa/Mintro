@@ -1,24 +1,22 @@
+import { router } from 'expo-router';
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
+import NotificationIcon from './Icons/ChatIcon';
 
 interface HeaderProps {
-  onAvatarPress: () => void;
-  onRefreshPress: () => void;
   avatarChar: string;
-  logoSource: any;
 }
 
 const { width, height } = Dimensions.get('window');
 
 const Header: React.FC<HeaderProps> = ({
-  onAvatarPress,
-  onRefreshPress,
   avatarChar,
-  logoSource,
 }) => {
+
+  const logoSource = require('@/assets/images/logosrobomintro.png')
   return (
     <View style={styles.header}>
-      <TouchableOpacity style={styles.avatarContainer} onPress={onAvatarPress}>
+      <TouchableOpacity style={styles.avatarContainer} onPress={() => router.push('/(tabs)/profile')}>
         <Text style={styles.avatarText}>{avatarChar}</Text>
       </TouchableOpacity>
 
@@ -26,12 +24,13 @@ const Header: React.FC<HeaderProps> = ({
         <Image source={logoSource} style={styles.logoImage} resizeMode="contain" />
       </View>
 
-      <TouchableOpacity style={styles.refreshButton} onPress={onRefreshPress}>
-        <Text style={styles.refreshIcon}>↻</Text>
+      <TouchableOpacity>
+        <NotificationIcon/>
       </TouchableOpacity>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   header: {
@@ -67,18 +66,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: '600',
-  },
-  refreshButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  refreshIcon: {
-    fontSize: 20,
-    color: '#374151',
   },
 });
 

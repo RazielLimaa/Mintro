@@ -3,13 +3,15 @@ export interface Activity{
     name: string
 }
 
+export type MoodType = "Excelente" | "Bom" | "Neutro" | "Ruim" | "Péssimo";
+
 export interface Diary{
     id: number
     user: number
-    title?: string
+    title: string
     content: string
     datetime: Date
-    mood: string
+    mood: MoodType
     activities: Activity[]
     photo?: string
 }
